@@ -1,6 +1,6 @@
 import { db, Todo } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -10,20 +10,42 @@ export async function GET() {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { title, completed, description, createAt, updateAt } =
-      await request.json();
+    const { title, completed, description, updateAt } = await request.json();
+
+    // Log the updateAt value to debug
+    console.log("Received updateAt:", updateAt);
+
+    // Validate required fields
+    if (!title || !description) {
+      throw new Error("Title and description are required.");
+    }
+
+    // Ensure updateAt is in a valid format
+    const updateAtValue = updateAt ? new Date(updateAt) : new Date();
+    if (isNaN(updateAtValue.getTime())) {
+      throw new Error("Invalid updateAt value. Please provide a valid date.");
+    }
+
     const row = await db
       .insert(Todo)
-      .values({ title, completed, description, createAt, updateAt })
+      .values({
+        title,
+        completed: completed ?? false,
+        description,
+        updateAt: updateAtValue,
+      })
       .returning();
+
     return NextResponse.json(row, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    console.error("Error inserting data:", error);
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
-export async function PUT(request: Request) {
+
+export async function PUT(request: NextRequest) {
   try {
     const { id, title, completed, description, updateAt } =
       await request.json();
@@ -37,7 +59,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
     const { id } = await request.json();
     const row = await db.delete(Todo).where(eq(Todo.id, id)).returning();

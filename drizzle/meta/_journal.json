@@ -15,6 +15,20 @@
       "when": 1729014543007,
       "tag": "0001_cool_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729046318980,
+      "tag": "0002_right_malcolm_colcord",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1729046667951,
+      "tag": "0003_abnormal_silver_surfer",
+      "breakpoints": true
     }
   ]
 }
