@@ -1,0 +1,45 @@
+{
+  "id": "cb0d58bf-f754-470d-a412-7caf469c9266",
+  "prevId": "da67acf8-1429-4701-9ab3-042f35697ff2",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.fullstacktodo": {
+      "name": "fullstacktodo",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "completed": {
+          "name": "completed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

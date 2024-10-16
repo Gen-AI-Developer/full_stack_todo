@@ -1,0 +1,1 @@
+ALTER TABLE "fullstacktodo" DROP COLUMN IF EXISTS "created_at";
