@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -6,18 +8,57 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { MoreVertical, Star } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
-const TodoElement = () => {
+interface TodoElementProps {
+  id: string;
+  title: string;
+  description: string;
+  onDelete: (id: string) => void;
+  onEdit: (id: string, title: string, description: string) => void;
+}
+
+export default function TodoElement({
+  id,
+  title,
+  description,
+  onDelete,
+  onEdit,
+}: TodoElementProps) {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editTitle, setEditTitle] = useState(title);
+  const [editDescription, setEditDescription] = useState(description);
+
+  const handleDelete = () => {
+    onDelete(id);
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleEdit = () => {
+    onEdit(id, editTitle, editDescription);
+    setIsEditDialogOpen(false);
+  };
+
   return (
     <div>
-      {" "}
       <Card className="bg-[#2a2a2a] border-[#3a3a3a] mb-4">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-2xl font-medium flex text-white items-center gap-2">
             <Star className="h-4 w-4 text-white fill-white" />
-            Complete the todo App UI/UX
+            {title}
           </CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -34,28 +75,105 @@ const TodoElement = () => {
               className="w-[160px] bg-[#2a2a2a] text-white border-[#3a3a3a]"
             >
               <DropdownMenuItem className="focus:bg-[#3a3a3a]">
-                Edit
+                Mark As Complete
               </DropdownMenuItem>
-              <DropdownMenuItem className="bg-[#3a3a3a] focus:bg-red-500">
-                Delete
-              </DropdownMenuItem>
+              <Dialog
+                open={isEditDialogOpen}
+                onOpenChange={setIsEditDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    className="focus:bg-[#3a3a3a]"
+                  >
+                    Edit
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent className="bg-[#2a2a2a] text-white border-[#3a3a3a]">
+                  <DialogHeader>
+                    <DialogTitle>Edit Todo</DialogTitle>
+                    <DialogDescription className="text-gray-400">
+                      Make changes to your todo here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <label htmlFor="title" className="text-right">
+                        Title
+                      </label>
+                      <Input
+                        id="title"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                        className="col-span-3 bg-[#3a3a3a] border-[#4a4a4a] text-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <label htmlFor="description" className="text-right">
+                        Description
+                      </label>
+                      <Textarea
+                        id="description"
+                        value={editDescription}
+                        onChange={(e) => setEditDescription(e.target.value)}
+                        className="col-span-3 bg-[#3a3a3a] border-[#4a4a4a] text-white"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsEditDialogOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={handleEdit}>Save changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Dialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    className="focus:bg-red-500"
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent className="bg-[#2a2a2a] text-white border-[#3a3a3a]">
+                  <DialogHeader>
+                    <DialogTitle>
+                      Are you sure you want to delete this todo?
+                    </DialogTitle>
+                    <DialogDescription className="text-gray-400">
+                      This action cannot be undone. This will permanently delete
+                      the todo from your list.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsDeleteDialogOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button variant="destructive" onClick={handleDelete}>
+                      Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuContent>
           </DropdownMenu>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-400">
-            Design and finalize the user interface and user experience for the
-            Todo App, ensuring a smooth, intuitive, and visually appealing
-            layout. Focus on user-friendly navigation, clean aesthetics, and a
-            seamless experience across different devices. Pay attention to
-            accessibility features, responsiveness, and functionality to enhance
-            overall usability. This task will involve wireframing, prototyping,
-            and collaborating with team members for feedback and improvements.
-          </p>
+          <p className="text-sm text-gray-400">{description}</p>
         </CardContent>
       </Card>
     </div>
   );
-};
-
-export default TodoElement;
+}

@@ -68,3 +68,22 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
+export async function UPDATE(request: NextRequest) {
+  try {
+    const { id, title, description, updateAt } = await request.json();
+
+    const row = await db
+      .update(Todo)
+      .set({
+        title,
+        description,
+        updateAt,
+      })
+      .where(eq(Todo.id, id))
+      .returning();
+
+    return NextResponse.json(row, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 });
+  }
+}
