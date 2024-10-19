@@ -23,11 +23,11 @@ import { MoreVertical, Star } from "lucide-react";
 import React, { useState } from "react";
 
 interface TodoElementProps {
-  id: string;
+  id: number; // Change this to number
   title: string;
   description: string;
-  onDelete: (id: string) => void;
-  onEdit: (id: string, title: string, description: string) => void;
+  onDelete: (id: number) => void;
+  onEdit: (id: number, title: string, description: string) => void;
 }
 
 export default function TodoElement({

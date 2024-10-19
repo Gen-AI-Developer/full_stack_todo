@@ -20,25 +20,46 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
+interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
 export default function TodoApp() {
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [showCompleted, setShowCompleted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [newTodo, setNewTodo] = useState({ title: "", description: "" });
+
   useEffect(() => {
     fetch("http://localhost:3000/api/crud")
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch((err) => console.error(err));
   }, []);
+
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically add the new todo to your state or send it to an API
-    console.log("New Todo:", newTodo);
+    // Add the new todo to the list
+    const newTodoItem = {
+      id: Date.now(), // or use proper ID generation logic
+      title: newTodo.title,
+      description: newTodo.description,
+      completed: false,
+    };
+
+    setTodos([...todos, newTodoItem]);
     setNewTodo({ title: "", description: "" });
     setIsModalOpen(false);
   };
-  const handleEditTodo = (id, newTitle, newDescription) => {
+
+  const handleEditTodo = (
+    id: number,
+    newTitle: string,
+    newDescription: string
+  ) => {
     fetch(`http://localhost:3000/api/crud/${id}`, {
       method: "PUT",
       headers: {
@@ -54,7 +75,8 @@ export default function TodoApp() {
       })
       .catch((err) => console.error(err));
   };
-  const handleMarkComplete = (id) => {
+
+  const handleMarkComplete = (id: number) => {
     fetch(`http://localhost:3000/api/crud/${id}`, {
       method: "PUT",
       headers: {
@@ -70,7 +92,8 @@ export default function TodoApp() {
       })
       .catch((err) => console.error(err));
   };
-  const handleDeleteTodo = (id) => {
+
+  const handleDeleteTodo = (id: number) => {
     fetch(`http://localhost:3000/api/crud/${id}`, {
       method: "DELETE",
     })
@@ -117,7 +140,6 @@ export default function TodoApp() {
         </DropdownMenu>
       </header>
       <>
-        {" "}
         {todos.map((todo) => (
           <TodoElement
             key={todo.id}
@@ -185,7 +207,4 @@ export default function TodoApp() {
       </Dialog>
     </div>
   );
-}
-function setTodos(data: any): any {
-  throw new Error("Function not implemented.");
 }
