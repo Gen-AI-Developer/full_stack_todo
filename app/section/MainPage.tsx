@@ -105,8 +105,8 @@ export default function TodoApp() {
 
   return (
     <div className="min-h-screen bg-[#1e1e1e] text-white p-4 md:p-6 lg:p-8">
-      <header className="flex  border-[#444444] shadow rounded justify-between items-center mb-6">
-        <h1 className="text-xl font-bold">FST</h1>
+      <header className="flex border px-4 border-[#2b2a2a] rounded justify-between items-center mb-6">
+        <h1 className="text-xl font-bold">TODO</h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
