@@ -1,179 +1,52 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { MoreVertical, Star } from "lucide-react";
 import React, { useState } from "react";
-
-interface TodoElementProps {
-  id: number; // Change this to number
+interface TodoElements {
   title: string;
   description: string;
-  onDelete: (id: number) => void;
-  onEdit: (id: number, title: string, description: string) => void;
+  createat: string;
 }
-
-export default function TodoElement({
-  id,
-  title,
-  description,
-  onDelete,
-  onEdit,
-}: TodoElementProps) {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
-
-  const handleDelete = () => {
-    onDelete(id);
-    setIsDeleteDialogOpen(false);
-  };
-
-  const handleEdit = () => {
-    onEdit(id, editTitle, editDescription);
-    setIsEditDialogOpen(false);
-  };
-
+const TodoElement = (props: TodoElements) => {
+  const [edit, setEditDialog] = useState(false);
   return (
-    <div>
-      <Card className="bg-[#2a2a2a] border-[#3a3a3a] mb-4">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-2xl font-medium flex text-white items-center gap-2">
-            <Star className="h-4 w-4 text-white fill-white" />
-            {title}
-          </CardTitle>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 text-white hover:bg-[#3a3a3a]"
+    <>
+      <section className="">
+        <div className="flex flex-col bg-[#2a2a2a] border-[#3a3a3a] shadow shadow-gray-500 rounded-md p-2 m-2 w-full">
+          <div className="bg-[#2a2a2a] border-[#3a3a3a] mb-4">
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="text-3xl font-bold flex items-center gap-2">
+                {props.title}
+              </div>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">{props.description}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-300">{props.createat}</p>
+            </div>
+            <div className="flex gap-2 font-semibold mt-4">
+              <button
+                onClick={() => {
+                  setEditDialog(!edit);
+                  {
+                    edit ? (
+                      <div>this is Dialog Box Area to be truly</div>
+                    ) : (
+                      <div>this is Dialog Box Area to be falsly</div>
+                    );
+                  }
+                }}
+                className="text-white text-center font-extrabold rounded px-3 py-2 bg-blue-500 w-1/2"
               >
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="w-[160px] bg-[#2a2a2a] text-white border-[#3a3a3a]"
-            >
-              <DropdownMenuItem className="focus:bg-[#3a3a3a]">
-                Mark As Complete
-              </DropdownMenuItem>
-              <Dialog
-                open={isEditDialogOpen}
-                onOpenChange={setIsEditDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onSelect={(e) => e.preventDefault()}
-                    className="focus:bg-[#3a3a3a]"
-                  >
-                    Edit
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                <DialogContent className="bg-[#2a2a2a] text-white border-[#3a3a3a]">
-                  <DialogHeader>
-                    <DialogTitle>Edit Todo</DialogTitle>
-                    <DialogDescription className="text-gray-400">
-                      Make changes to your todo here. Click save when you're
-                      done.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="title" className="text-right">
-                        Title
-                      </label>
-                      <Input
-                        id="title"
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                        className="col-span-3 bg-[#3a3a3a] border-[#4a4a4a] text-white"
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <label htmlFor="description" className="text-right">
-                        Description
-                      </label>
-                      <Textarea
-                        id="description"
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        className="col-span-3 bg-[#3a3a3a] border-[#4a4a4a] text-white"
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button
-                      variant="outline"
-                      onClick={() => setIsEditDialogOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button onClick={handleEdit}>Save changes</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-              <Dialog
-                open={isDeleteDialogOpen}
-                onOpenChange={setIsDeleteDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onSelect={(e) => e.preventDefault()}
-                    className="focus:bg-red-500"
-                  >
-                    Delete
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                <DialogContent className="bg-[#2a2a2a] text-white border-[#3a3a3a]">
-                  <DialogHeader>
-                    <DialogTitle>
-                      Are you sure you want to delete this todo?
-                    </DialogTitle>
-                    <DialogDescription className="text-gray-400">
-                      This action cannot be undone. This will permanently delete
-                      the todo from your list.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      variant="outline"
-                      onClick={() => setIsDeleteDialogOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button variant="destructive" onClick={handleDelete}>
-                      Delete
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-gray-400">{description}</p>
-        </CardContent>
-      </Card>
-    </div>
+                Edit
+              </button>
+              <div className="text-white text-center font-extrabold rounded px-3 py-2 bg-red-500 w-1/2">
+                Delete
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
-}
+};
+
+export default TodoElement;
