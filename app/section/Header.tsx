@@ -9,7 +9,7 @@ const Header = () => {
             Full Stack Todo
           </div>
         </h1>
-        <div className="font-xl font-semibold flex flex-row gap-3 shadow rounded px-4 py-1 bg-[#3a3a3a]">
+        <div className=" border-2 border-black/85 font-xl font-semibold flex flex-row gap-3 shadow rounded px-4 py-1 bg-[#3a3a3a]">
           <div>Show completed</div>
           <div>About Developer</div>
         </div>
