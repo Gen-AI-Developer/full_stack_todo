@@ -42,7 +42,7 @@ const MainPage = () => {
   return (
     <div className="min-h-screen bg-[#1e1e1e] text-white p-4 md:p-6 lg:p-8">
       <div className="flex flex-col justify-center items-center ">
-        <div className="">
+        <div className="md:grid md:grid-cols-2 gap-4">
           {data.map((item: TodoElements, index) => (
             <TodoElement
               key={index}
