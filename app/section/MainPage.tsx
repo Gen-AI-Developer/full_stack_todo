@@ -41,6 +41,7 @@ const MainPage = () => {
           {data.map((item, index) => (
             <TodoElement
               key={index}
+              id={item.id}
               title={item.title}
               description={item.description}
               createat={item.createAt}
