@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import TodoElement from "./TodoElement";
-
+interface TodoElements {
+  id: number;
+  title: string;
+  description: string;
+  createAt: string;
+}
 const MainPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +43,7 @@ const MainPage = () => {
     <div className="min-h-screen bg-[#1e1e1e] text-white p-4 md:p-6 lg:p-8">
       <div className="flex flex-col justify-center items-center ">
         <div className="">
-          {data.map((item, index) => (
+          {data.map((item: TodoElements, index) => (
             <TodoElement
               key={index}
               id={item.id}

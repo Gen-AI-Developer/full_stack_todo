@@ -34,7 +34,13 @@ const TodoElement = (props: TodoElements) => {
               >
                 Edit
               </button>
-              {isOpen && <EditDialogBox key={props.id} id={props.id} />}
+              {isOpen && (
+                <EditDialogBox
+                  key={props.id}
+                  id={props.id}
+                  closeDialogBox={closeDialog}
+                />
+              )}
               <div className="text-white border-2 border-black/85 text-center font-extrabold rounded px-3 py-2 bg-red-500 w-1/2">
                 Delete
               </div>
