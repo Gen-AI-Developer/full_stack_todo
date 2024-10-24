@@ -5,6 +5,7 @@ interface TodoElements {
   title: string;
   description: string;
   createat: string;
+  iscompleted: boolean;
 }
 const TodoElement = (props: TodoElements) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ const TodoElement = (props: TodoElements) => {
   return (
     <>
       <section className="">
-        <div className="flex flex-col bg-[#2a2a2a] border-[#3a3a3a]  shadow rounded-lg p-2 m-2 w-full">
+        <div className="flex flex-col bg-[#2a2a2a] border-2 border-black  shadow rounded-lg p-2 m-2 w-full">
           <div className="bg-[#2a2a2a] border-[#3a3a3a] mb-4">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
               <div className="text-3xl font-bold flex items-center gap-2">
@@ -38,6 +39,10 @@ const TodoElement = (props: TodoElements) => {
                 <EditDialogBox
                   key={props.id}
                   id={props.id}
+                  title={props.title}
+                  description={props.description}
+                  createat={props.createat}
+                  iscomplete={props.iscompleted}
                   closeDialogBox={closeDialog}
                 />
               )}

@@ -6,6 +6,7 @@ interface TodoElements {
   title: string;
   description: string;
   createAt: string;
+  iscompleted: boolean;
 }
 const MainPage = () => {
   const [data, setData] = useState([]);
@@ -30,8 +31,8 @@ const MainPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#1e1e1e] text-white p-4 md:p-6 lg:p-8">
-        <div className="flex flex-row justify-between items-center">
-          <div className="font-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+        <div className="flex w-full justify-center">
+          <div className="p-1 font-extrabold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
             Loading...
           </div>
         </div>
@@ -50,6 +51,7 @@ const MainPage = () => {
               title={item.title}
               description={item.description}
               createat={item.createAt}
+              iscompleted={item.iscompleted}
             />
           ))}
         </div>

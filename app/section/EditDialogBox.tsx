@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 interface values {
   id: number;
+  title: string;
+  description: string;
+  iscomplete: boolean;
+  createat: string;
   closeDialogBox: () => void;
 }
 
 const EditDialogBox = (props: values) => {
-  const [title, setTitle] = useState("This is Value of Title");
-  const [description, setDescription] = useState(
-    "This is Value of Description"
-  );
-  const [dateTime, setDateTime] = useState("");
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [title, setTitle] = useState(props.title);
+  const [description, setDescription] = useState(props.description);
+  const [isCompleted, setIsCompleted] = useState(props.iscomplete);
+
+  // setTitle(props.title);
+  // setDescription(props.description);
+  // setIsCompleted(props.iscomplete);
 
   const getCurrentDateTime = () => {
     const now = new Date();
@@ -25,7 +30,7 @@ const EditDialogBox = (props: values) => {
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-[#2a2a2a] rounded-lg shadow-xl max-w-md w-full">
+      <div className="bg-[#2a2a2a] rounded-lg shadow-xl max-w-md w-full  border-2 border-black">
         <div className="p-6 gap-4">
           <form action="" method="post">
             <h2 className="text-2xl font-bold mb-6 text-white">
@@ -68,7 +73,25 @@ const EditDialogBox = (props: values) => {
                 htmlFor="dateTime"
                 className="block text-sm font-medium text-white mb-2"
               >
-                Date/Time
+                Created On
+              </label>
+              <div className="flex items-center">
+                <input
+                  id="dateTime"
+                  name="dateTime"
+                  type="text"
+                  value={props.createat}
+                  readOnly
+                  className="flex-grow px-3 py-2 text-white bg-[#2a2a2a] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                />
+              </div>
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="dateTime"
+                className="block text-sm font-medium text-white mb-2"
+              >
+                Update Date/Time
               </label>
               <div className="flex items-center">
                 <input
@@ -81,7 +104,6 @@ const EditDialogBox = (props: values) => {
                 />
               </div>
             </div>
-
             <div className="mb-6">
               <label className="flex items-center">
                 <input
