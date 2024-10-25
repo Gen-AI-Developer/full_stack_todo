@@ -8,10 +8,15 @@ interface TodoElements {
   iscompleted: boolean;
 }
 const TodoElement = (props: TodoElements) => {
+  const [showUnCompleted, setShowUnCompleted] = useState(props.iscompleted);
   const [isOpen, setIsOpen] = useState(false);
-
   const openDialog = () => setIsOpen(true);
   const closeDialog = () => setIsOpen(false);
+  if (showUnCompleted) {
+    const clx = "px-2 m-2 bg-green-500 rounded-full text-black";
+  } else {
+    const clx = "px-2 m-2 bg-yellow-500 rounded-full text-black";
+  }
   return (
     <>
       <section className="">
@@ -20,6 +25,9 @@ const TodoElement = (props: TodoElements) => {
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
               <div className="text-3xl font-bold flex items-center gap-2">
                 {props.title}
+              </div>
+              <div className="px-2 m-2 bg-green-500 rounded-full text-black">
+                completed
               </div>
             </div>
             <div>
